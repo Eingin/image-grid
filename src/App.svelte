@@ -106,19 +106,34 @@
       },
     };
   }
+
+  const save = (event) => {
+    var image = canvas.toDataURL("image/png");
+    event.target.href = image;
+  };
 </script>
 
 <svelte:window on:resize={dispatchResize} />
 
 <div id="app" bind:clientWidth={width} bind:clientHeight={height}>
   <h1>Image Grid</h1>
-  <div
-    class="upload"
-    on:click={() => {
-      fileinput.click();
-    }}
-  >
-    Choose Image
+  <div class="input-container">
+    <div
+      class="button upload"
+      on:click={() => {
+        fileinput.click();
+      }}
+    >
+      Choose Image
+    </div>
+    <a
+      class="button download"
+      download="grid-image.png"
+      on:click={save}
+      href="local"
+    >
+      Download Image
+    </a>
   </div>
   <canvas
     bind:clientWidth={width}
@@ -166,15 +181,21 @@
     flex-flow: column;
   }
 
-  .upload {
+  .button {
+    color: #333;
     display: flex;
     height: 40px;
     width: 150px;
     cursor: pointer;
     border-radius: 5px;
-    background-color: lightskyblue;
     align-items: center;
     justify-content: center;
+  }
+  .upload {
+    background-color: lightskyblue;
+  }
+  .download {
+    background-color: lightgreen;
   }
 
   .input-container {
