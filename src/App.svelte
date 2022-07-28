@@ -2,8 +2,8 @@
   import { onMount, tick } from "svelte";
   let image = null;
   let fileinput, canvas;
-  let width = 1007;
-  let height = 100;
+  let width = 500;
+  let height = 500;
 
   let hCells = 5;
   let vCells = 5;
@@ -40,6 +40,7 @@
     canvas.width = width;
     canvas.height = height;
     await tick();
+    redraw();
   });
 
   const redraw = () => {
@@ -107,11 +108,7 @@
   }
 </script>
 
-<svelte:window
-  on:resize={dispatchResize}
-  bind:innerWidth={width}
-  bind:innerHeight={height}
-/>
+<svelte:window on:resize={dispatchResize} />
 
 <div id="app" bind:clientWidth={width} bind:clientHeight={height}>
   <h1>Image Grid</h1>
@@ -123,7 +120,12 @@
   >
     Choose Image
   </div>
-  <canvas id="cv" bind:this={canvas} />
+  <canvas
+    bind:clientWidth={width}
+    bind:clientHeight={height}
+    id="cv"
+    bind:this={canvas}
+  />
 
   <input
     style="display:none"
